@@ -1,37 +1,40 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-
-const posts = (await getCollection('posts')).sort(
-  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
-);
-
-function formatDate(date: Date): string {
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-}
 ---
 
-<BaseLayout>
-  <h1 class="text-3xl font-bold mb-8 text-neutral-50">Latest Posts</h1>
-  <div class="space-y-10">
-    {posts.map((post) => (
-      <article class="group">
-        <a href={`/posts/${post.slug}`} class="block">
-          <time class="text-sm text-neutral-500" datetime={post.data.publishDate.toISOString()}>
-            {formatDate(post.data.publishDate)}
-          </time>
-          <h2 class="text-xl font-semibold mt-1 text-neutral-100 group-hover:text-neutral-300 transition-colors">
-            {post.data.title}
-          </h2>
-          <p class="mt-2 text-neutral-400 leading-relaxed">
-            {post.data.summary}
-          </p>
-        </a>
-      </article>
-    ))}
-  </div>
+<BaseLayout title="Client Perspective">
+  <section class="space-y-6">
+    <p class="text-sm uppercase tracking-[0.3em] text-neutral-500">OpenClaw News</p>
+    <h1 class="text-4xl md:text-5xl font-semibold text-neutral-50 leading-tight">
+      Clear, trustworthy updates about OpenClaw — from a client perspective.
+    </h1>
+    <p class="text-lg text-neutral-300 leading-relaxed max-w-2xl">
+      We keep this space focused on what matters to clients: stability, safety, cost transparency,
+      and the practical impact of each release. No hype. Just clean, readable updates.
+    </p>
+  </section>
+
+  <section class="mt-12 grid gap-6 md:grid-cols-3">
+    <div class="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-6">
+      <h2 class="text-lg font-semibold text-neutral-100">Reliability First</h2>
+      <p class="mt-3 text-neutral-400">Every change is shipped with guardrails, monitoring, and rollback plans.</p>
+    </div>
+    <div class="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-6">
+      <h2 class="text-lg font-semibold text-neutral-100">Cost Clarity</h2>
+      <p class="mt-3 text-neutral-400">Usage and spend are tracked transparently with proactive alerts.</p>
+    </div>
+    <div class="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-6">
+      <h2 class="text-lg font-semibold text-neutral-100">Human‑Readable</h2>
+      <p class="mt-3 text-neutral-400">Updates are written for people first, while staying bot‑friendly.</p>
+    </div>
+  </section>
+
+  <section class="mt-14 flex flex-wrap gap-4">
+    <a href="/news" class="inline-flex items-center rounded-full bg-neutral-100 text-neutral-900 px-6 py-3 text-sm font-semibold hover:bg-white transition">
+      Read the latest news
+    </a>
+    <a href="/posts/introducing-openclaw" class="inline-flex items-center rounded-full border border-neutral-700 text-neutral-200 px-6 py-3 text-sm font-semibold hover:border-neutral-500 transition">
+      Start with the overview
+    </a>
+  </section>
 </BaseLayout>

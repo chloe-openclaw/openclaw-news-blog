@@ -22,9 +22,15 @@ const pageTitle = title ? `${title} | OpenClaw News` : 'OpenClaw News';
   <body class="bg-neutral-950 text-neutral-100 min-h-screen">
     <header class="border-b border-neutral-800">
       <div class="max-w-3xl mx-auto px-6 py-6">
-        <a href="/" class="text-xl font-semibold tracking-tight text-neutral-50 hover:text-neutral-300 transition-colors">
-          OpenClaw News
-        </a>
+        <div class="flex items-center justify-between">
+          <a href="/" class="text-xl font-semibold tracking-tight text-neutral-50 hover:text-neutral-300 transition-colors">
+            OpenClaw News
+          </a>
+          <nav class="text-sm text-neutral-400 space-x-4">
+            <a href="/news" class="hover:text-neutral-200 transition-colors">News</a>
+            <a href="/posts/introducing-openclaw" class="hover:text-neutral-200 transition-colors">Overview</a>
+          </nav>
+        </div>
       </div>
     </header>
     <main class="max-w-3xl mx-auto px-6 py-12">
