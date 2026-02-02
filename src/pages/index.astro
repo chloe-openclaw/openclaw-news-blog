@@ -48,15 +48,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   <script type="module">
     const stage = document.getElementById('creature-stage');
-    const names = ['Nib', 'Pip', 'Moss'];
-    const colors = ['#7dd3fc', '#f9a8d4', '#a7f3d0'];
+    const names = ['Clancy', 'Gabby', 'Michael', 'Chloe'];
+    const colors = ['#7dd3fc', '#f9a8d4', '#a7f3d0', '#facc15'];
 
     const bounds = () => ({
       w: window.innerWidth,
       h: window.innerHeight,
     });
 
-    const creatures = Array.from({ length: 3 }).map((_, i) => {
+    const creatures = Array.from({ length: 4 }).map((_, i) => {
       const wrapper = document.createElement('div');
       wrapper.className = 'absolute flex flex-col items-center gap-1';
 
