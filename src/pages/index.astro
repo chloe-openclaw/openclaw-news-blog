@@ -42,15 +42,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
   <script type="module">
     const stage = document.getElementById('creature-stage');
-    const names = ['Clancy', 'Gabby', 'Michael', 'Chloe'];
-    const colors = ['#7dd3fc', '#f9a8d4', '#a7f3d0', '#facc15'];
+    const names = ['Clancy', 'Gabby', 'Michael', 'Chloe', 'Nick'];
+    const colors = ['#7dd3fc', '#f9a8d4', '#a7f3d0', '#facc15', '#84cc16'];
 
     const bounds = () => ({
       w: window.innerWidth,
       h: window.innerHeight,
     });
 
-    const creatures = Array.from({ length: 4 }).map((_, i) => {
+    const creatures = Array.from({ length: 5 }).map((_, i) => {
       const wrapper = document.createElement('div');
       wrapper.className = 'absolute flex flex-col items-center gap-1';
 
@@ -59,8 +59,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       label.textContent = names[i] ?? `Creature ${i + 1}`;
 
       const el = document.createElement('div');
-      el.className = 'h-6 w-6 rounded-full shadow-lg';
-      el.style.background = colors[i % colors.length];
+      if (names[i] === 'Nick') {
+        el.className = 'text-2xl leading-none select-none';
+        el.textContent = '🦗';
+        el.style.filter = 'drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))';
+      } else {
+        el.className = 'h-6 w-6 rounded-full shadow-lg';
+        el.style.background = colors[i % colors.length];
+      }
 
       const bubble = document.createElement('div');
       bubble.className = 'absolute -top-8 px-2 py-1 rounded-full text-[10px] bg-neutral-900/80 text-neutral-200 border border-neutral-700 opacity-0 transition-opacity duration-200';
