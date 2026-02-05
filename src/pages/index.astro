@@ -88,6 +88,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         vy: (Math.random() * 0.6 + 0.4) * (Math.random() > 0.5 ? 1 : -1),
         hop: Math.random() * Math.PI * 2,
         speakCooldown: 0,
+        // Grasshopper logic
+        jumpTimer: Math.random() * 2000 + 1000,
+        isJumping: false,
+        jumpProgress: 0,
+        jumpStartX: 0,
+        jumpStartY: 0,
+        jumpTargetX: 0,
+        jumpTargetY: 0,
       };
     });
 
@@ -98,15 +106,48 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       const { w, h } = bounds();
 
       creatures.forEach((c) => {
-        c.hop += dt * 0.01;
-        c.x += c.vx * dt * 0.04;
-        c.y += c.vy * dt * 0.04 + Math.sin(c.hop) * 0.18;
+        if (c.name === 'Nick') {
+          if (c.isJumping) {
+            c.jumpProgress += dt * 0.003;
+            if (c.jumpProgress >= 1) {
+              c.isJumping = false;
+              c.jumpProgress = 1;
+              c.x = c.jumpTargetX;
+              c.y = c.jumpTargetY;
+              c.jumpTimer = Math.random() * 2000 + 1000;
+            } else {
+              const t = c.jumpProgress;
+              const ease = 1 - Math.pow(1 - t, 4);
+              c.x = c.jumpStartX + (c.jumpTargetX - c.jumpStartX) * ease;
+              c.y = c.jumpStartY + (c.jumpTargetY - c.jumpStartY) * ease;
+              
+              const jumpScale = 1 + Math.sin(t * Math.PI) * 0.8;
+              c.el.style.transform = `translate(${c.x}px, ${c.y}px) scale(${jumpScale})`;
+              return;
+            }
+          } else {
+            c.jumpTimer -= dt;
+            if (c.jumpTimer <= 0) {
+              c.isJumping = true;
+              c.jumpProgress = 0;
+              c.jumpStartX = c.x;
+              c.jumpStartY = c.y;
+              c.jumpTargetX = Math.max(0, Math.min(w - 24, c.x + (Math.random() - 0.5) * 500));
+              c.jumpTargetY = Math.max(0, Math.min(h - 48, c.y + (Math.random() - 0.5) * 500));
+            }
+          }
+          c.el.style.transform = `translate(${c.x}px, ${c.y}px)`;
+        } else {
+          c.hop += dt * 0.01;
+          c.x += c.vx * dt * 0.04;
+          c.y += c.vy * dt * 0.04 + Math.sin(c.hop) * 0.18;
 
-        if (c.x <= 0 || c.x >= w - 24) c.vx *= -1;
-        if (c.y <= 0 || c.y >= h - 48) c.vy *= -1;
+          if (c.x <= 0 || c.x >= w - 24) c.vx *= -1;
+          if (c.y <= 0 || c.y >= h - 48) c.vy *= -1;
 
-        if (c.speakCooldown > 0) c.speakCooldown -= dt;
-        c.el.style.transform = `translate(${c.x}px, ${c.y}px) scale(${1 + Math.sin(c.hop) * 0.1})`;
+          if (c.speakCooldown > 0) c.speakCooldown -= dt;
+          c.el.style.transform = `translate(${c.x}px, ${c.y}px) scale(${1 + Math.sin(c.hop) * 0.1})`;
+        }
       });
 
       const michael = creatures.find((c) => c.name === 'Michael');
