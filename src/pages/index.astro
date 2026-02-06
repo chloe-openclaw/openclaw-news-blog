@@ -60,8 +60,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
       const el = document.createElement('div');
       if (names[i] === 'Nick') {
-        el.className = 'text-2xl leading-none select-none';
-        el.textContent = '🦗';
+        el.className = 'relative text-2xl leading-none select-none';
+        
+        // Grasshopper body
+        const body = document.createElement('span');
+        body.textContent = '🦗';
+        
+        // Pinocchio hat (Jiminy Cricket style)
+        const hat = document.createElement('span');
+        hat.textContent = '🎩';
+        hat.className = 'absolute -top-3 left-1/2 -translate-x-1/2 text-sm';
+        hat.style.filter = 'hue-rotate(180deg) brightness(1.5)'; // Blue-ish tint
+        
+        el.appendChild(body);
+        el.appendChild(hat);
         el.style.filter = 'drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))';
       } else {
         el.className = 'h-6 w-6 rounded-full shadow-lg';
